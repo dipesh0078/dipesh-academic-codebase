@@ -1,0 +1,5 @@
+# Ignore all Markdown files
+*.md
+
+# To still track README.md, uncomment the next line
+# !README.md
