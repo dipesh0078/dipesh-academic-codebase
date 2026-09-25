@@ -7,14 +7,14 @@
   <title>Dipesh Thapa | Academic Homepage</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
   <div class="nav">
-    <a class="logo" href="#top">D. THAPA</a>
+    <a class="logo" href="#top">Dipesh Thapa</a>
     <nav>
       <a href="#about">About</a>
       <a href="#research">Research</a>
@@ -44,10 +44,10 @@
       AI/ML, and related fields.
     </p>
     <div class="links">
-      <a href="mailto:thapadipesh2058@gmail.com">✉ Email</a>
-      <a href="#" target="_blank">↗ GitHub</a>
-      <a href="#" target="_blank">in LinkedIn</a>
-      <a href="#" target="_blank">◈ Google Scholar</a>
+      <a href="mailto:thapadipesh2058@gmail.com">Email</a>
+      <a href="https://github.com/dipesh0078" target="_blank">GitHub</a>
+      <a href="#" target="_blank">LinkedIn</a>
+      <a href="#" target="_blank">Google Scholar</a>
       <a href="https://doi.org/10.3126/jacem.v11i1.84250" target="_blank">DOI</a>
     </div>
   </div>
@@ -60,7 +60,7 @@
 <section id="research">
   <h2>Research Interests</h2>
   <p class="section-intro">
-    I am intrested in AI/ML systems that are efficient, practical,
+    I am interested in AI/ML systems that are efficient, practical,
     and useful in data- and resource-constrained environments.
   </p>
 
@@ -154,7 +154,14 @@
 </section>
 
 <section id="projects">
-  <h2>Research Projects</h2>
+  <h2>Projects</h2>
+  <p class="section-intro">
+    Research-oriented work first, followed by smaller projects that shaped my
+    interest in learning systems, algorithms, and deployable software. Code for
+    most of them is on <a class="inline-link" href="https://github.com/dipesh0078" target="_blank">GitHub</a>.
+  </p>
+
+  <h3 class="project-group">Research Projects</h3>
 
   <article class="project">
     <div class="number">[1]</div>
@@ -162,15 +169,30 @@
       <h3>Nepali–English Code-Switched Speech Recognition</h3>
       <p class="authors">Ongoing</p>
       <p>
-        Preparing an approximately 1,000-hour Nepali–English code-switched
-        speech corpus from natural conversational and monologue content,
-        including transcript alignment and Nepali/English word-level tagging.
+        Nepali speakers switch between Nepali and English within a single
+        sentence, often across two scripts (Devanagari and Latin). Most speech
+        recognition systems are trained on one language and break at these
+        switch points. This project builds the data foundation for studying that problem.
       </p>
-      <p>
-        Developing speech-to-text data preparation and evaluation pipelines
-        for cross-script code-switching, with emphasis on language-specific
-        recognition errors and switch boundaries.
-      </p>
+      <dl class="project-detail">
+        <dt>Data</dt>
+        <dd>
+          An approximately 1,000-hour Nepali–English code-switched speech corpus
+          from natural conversation and monologue content, with transcript
+          alignment and word-level Nepali/English language tags.
+        </dd>
+        <dt>Approach</dt>
+        <dd>
+          Speech-to-text data preparation and evaluation pipelines for
+          cross-script code-switching, with error analysis split by language
+          and focused on switch boundaries.
+        </dd>
+      </dl>
+      <div class="tags">
+        <span>Speech Recognition</span>
+        <span>Code-Switching</span>
+        <span>Low-Resource NLP</span>
+      </div>
     </div>
   </article>
 
@@ -178,21 +200,198 @@
     <div class="number">[2]</div>
     <div>
       <h3>Multi-Organ Segmentation of Abdominal CT</h3>
-      <p class="authors">2023–2024</p>
+      <p class="authors">2023–2024 · Undergraduate minor project</p>
       <p>
-        Developed and compared 3D U-Net and SegResNet models for multi-organ
-        segmentation of abdominal CT scans using the AbdomenCT-1K dataset,
-        covering liver, kidney, spleen, and pancreas.
+        Radiologists outline organs slice by slice when planning treatment, which
+        is slow work. This project trains 3D deep networks to label the liver,
+        kidneys, spleen, and pancreas in abdominal CT volumes, and compares two
+        architectures under the same pipeline.
       </p>
-      <p>
-        Built a MONAI-based preprocessing pipeline for NIfTI volumes,
-        including resampling, spatial normalization, intensity scaling,
-        foreground cropping, resizing, and cached data loading.
-      </p>
+      <dl class="project-detail">
+        <dt>Data</dt>
+        <dd>
+          AbdomenCT-1K, stored as NIfTI volumes with uneven slice counts.
+          Volumes were resampled with linear interpolation and label maps with
+          nearest-neighbour interpolation, so organ labels never blend together.
+        </dd>
+        <dt>Pipeline</dt>
+        <dd>
+          A MONAI preprocessing chain: resample to 1.5 × 1.5 × 3.0 mm spacing,
+          reorient to RAS, clip intensities to [−200, 200] HU and scale to [0, 1],
+          crop to the foreground, resize to 128 × 128 × 64, and cache the dataset
+          in memory for faster epochs.
+        </dd>
+        <dt>Models</dt>
+        <dd>
+          A 3D U-Net (5 levels, 16→256 channels, residual units, batch norm)
+          and a SegResNet, both with 5 output classes (background plus 4 organs),
+          trained for 200 epochs with Dice loss and Adam (lr 1e-4).
+        </dd>
+        <dt>Deployment</dt>
+        <dd>
+          A Flask web app that accepts a <code>.nii.gz</code> scan, resamples it,
+          runs both trained models, and shows their segmentations side by side.
+        </dd>
+      </dl>
       <div class="metrics">
-        <strong>77.16%</strong> SegResNet test accuracy
+        <strong>77.16%</strong> SegResNet test Dice
         &nbsp;|&nbsp;
-        <strong>71.35%</strong> U-Net test accuracy
+        <strong>71.35%</strong> U-Net test Dice
+      </div>
+      <div class="tags">
+        <span>PyTorch</span>
+        <span>MONAI</span>
+        <span>3D U-Net</span>
+        <span>SegResNet</span>
+        <span>Flask</span>
+      </div>
+      <div class="paper-links">
+        <a href="https://github.com/dipesh0078/Multiorgan-segmentation-of-Abdomen-using-UNET-SegResNet" target="_blank">[Code]</a>
+        <a href="https://github.com/dipesh0078/CT_image_segmentation_webApp" target="_blank">[Web App]</a>
+      </div>
+    </div>
+  </article>
+
+  <h3 class="project-group">Other Projects</h3>
+
+  <article class="project">
+    <div class="number">[3]</div>
+    <div>
+      <h3>Q-Learning Maze Agent</h3>
+      <p class="authors">2026 · Python, Pygame</p>
+      <p>
+        A reinforcement learning agent that learns to cross an 11 × 15 maze
+        purely from rewards, with no path-finding algorithm or hard-coded route.
+        Training is drawn live, so you can watch a random walker turn into one
+        that heads straight for the goal.
+      </p>
+      <dl class="project-detail">
+        <dt>How it works</dt>
+        <dd>
+          A tabular Q-table stores the value of moving up, down, left, or right
+          from each open cell. Rewards are +100 at the goal, −10 for hitting a
+          wall, and −1 per step to favour short paths. Updates follow the Bellman
+          equation (α = 0.1, γ = 0.9), with ε-greedy exploration decaying from
+          1.0 to 0.05.
+        </dd>
+        <dt>Result</dt>
+        <dd>
+          After training, the agent replays the greedy path read from the final
+          Q-table. A headless mode prints the learned route in ASCII.
+        </dd>
+      </dl>
+      <div class="tags">
+        <span>Reinforcement Learning</span>
+        <span>Q-Learning</span>
+      </div>
+      <div class="paper-links">
+        <a href="https://github.com/dipesh0078/RL-agent_based_maze_solver" target="_blank">[Code]</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="project">
+    <div class="number">[4]</div>
+    <div>
+      <h3>Regression &amp; Gradient Descent from Scratch</h3>
+      <p class="authors">2025 · Python, NumPy, Jupyter</p>
+      <p>
+        A set of notebooks that implement linear regression without ML libraries,
+        to understand what the optimisers in frameworks actually do.
+      </p>
+      <dl class="project-detail">
+        <dt>Covers</dt>
+        <dd>
+          The closed-form ordinary least squares solution, multiple linear
+          regression, and batch, stochastic, and mini-batch gradient descent,
+          each compared against the analytical answer.
+        </dd>
+      </dl>
+      <div class="tags">
+        <span>Machine Learning</span>
+        <span>Optimisation</span>
+      </div>
+      <div class="paper-links">
+        <a href="https://github.com/dipesh0078/Regression" target="_blank">[Code]</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="project">
+    <div class="number">[5]</div>
+    <div>
+      <h3>Micromouse Line-Maze Robot</h3>
+      <p class="authors">2023 · Arduino C++</p>
+      <p>
+        Firmware for an autonomous robot that explores a maze of black lines on
+        a white floor, learns the route, and then runs it again along the
+        shortest path.
+      </p>
+      <dl class="project-detail">
+        <dt>How it works</dt>
+        <dd>
+          Six analog IR sensors are calibrated at start-up to set per-sensor
+          thresholds, and a PID controller keeps the robot on the line. On the
+          dry run, each turn at an intersection is recorded as L, S, R, or B
+          (left, straight, right, back), and dead-ends are removed as they happen
+          (for example, "LBR" becomes "B"). The final run replays that shortened path.
+        </dd>
+      </dl>
+      <div class="tags">
+        <span>Embedded Systems</span>
+        <span>PID Control</span>
+        <span>Robotics</span>
+      </div>
+      <div class="paper-links">
+        <a href="https://github.com/dipesh0078/Micromouse" target="_blank">[Code]</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="project">
+    <div class="number">[6]</div>
+    <div>
+      <h3>Huffman File Compressor</h3>
+      <p class="authors">2023 · JavaScript · Team project</p>
+      <p>
+        A browser-based tool that compresses and decompresses text files
+        losslessly using Huffman coding. It was built as a data structures and
+        algorithms course project.
+      </p>
+      <dl class="project-detail">
+        <dt>How it works</dt>
+        <dd>
+          Character frequencies are counted and used to build a binary tree,
+          so frequent characters get shorter bit codes. The encoded file keeps
+          the tree, which lets the decompressor rebuild the exact original.
+        </dd>
+      </dl>
+      <div class="tags">
+        <span>Data Structures</span>
+        <span>Compression</span>
+      </div>
+      <div class="paper-links">
+        <a href="https://github.com/dipesh0078/huffman_dsa" target="_blank">[Code]</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="project">
+    <div class="number">[7]</div>
+    <div>
+      <h3>HexHimalaya CTF, Team Write-Up</h3>
+      <p class="authors">2023 · Team Jerry, PACE Club ACEM</p>
+      <p>
+        A write-up of our team's solutions from the HexHimalaya
+        capture-the-flag competition, covering OSINT, cryptography, forensics,
+        web exploitation, reverse engineering, and miscellaneous challenges.
+      </p>
+      <div class="tags">
+        <span>Cybersecurity</span>
+        <span>CTF</span>
+      </div>
+      <div class="paper-links">
+        <a href="https://github.com/dipesh0078/HexHimalaya_CTF__winner_Write_Up" target="_blank">[Write-Up]</a>
       </div>
     </div>
   </article>
@@ -287,70 +486,69 @@
   </div>
 </section>
 
-<!-- ================= CERTIFICATE SLIDER ================= -->
+<!-- ================= CERTIFICATES ================= -->
 
 <section id="certificates">
 
-  <h2>Certificates</h2>
+  <h2>Honours &amp; Certificates</h2>
 
   <p class="section-intro">
-    Selected certificates and achievements.
+    Recognition for academic performance, research presentation, and
+    service to the student community. Select a certificate to view it in full.
   </p>
 
-  <div class="certificate-slider">
+  <div class="certificate-grid">
 
-    <button class="slider-btn prev" aria-label="Previous certificate">
-      ←
-    </button>
+    <figure class="certificate">
+      <button class="certificate-thumb" data-full="certificates/certificate-1.jpeg" aria-label="View Certificate of Excellence">
+        <img src="certificates/certificate-1.jpeg" alt="Certificate of Excellence awarded to Dipesh Thapa by ACEM" loading="lazy">
+      </button>
+      <figcaption>
+        <h3>Certificate of Excellence: College Topper</h3>
+        <p class="certificate-meta">Advanced College of Engineering &amp; Management · 2025</p>
+        <p>Highest aggregate (80.53%) in the BCT 2077 batch, Department of Computer Engineering.</p>
+      </figcaption>
+    </figure>
 
-    <div class="certificate-track">
+    <figure class="certificate">
+      <button class="certificate-thumb" data-full="certificates/certificate-3.jpeg" aria-label="View Certificate of Participation">
+        <img src="certificates/certificate-3.jpeg" alt="Certificate of Participation for presenting at ACEM Undergraduate Project Conference 2025" loading="lazy">
+      </button>
+      <figcaption>
+        <h3>Presenter, ACEM Undergraduate Project Conference</h3>
+        <p class="certificate-meta">Advanced College of Engineering &amp; Management · 2025</p>
+        <p>Presented "Comparative Analysis of Deep Learning Algorithms for Protein Peptide Binding Affinity Prediction".</p>
+      </figcaption>
+    </figure>
 
-      <div class="certificate-slide">
-        <a href="certificates/certificate-1.jpeg" target="_blank">
-          <img src="certificates/certificate-1.jpeg" alt="Certificate 1">
-        </a>
-        <h3>Certificate Title</h3>
-        <p>Issuing Organization · 2025</p>
-      </div>
+    <figure class="certificate">
+      <button class="certificate-thumb" data-full="certificates/certificate-2.jpeg" aria-label="View Certificate of Appreciation from PACE">
+        <img src="certificates/certificate-2.jpeg" alt="Certificate of Appreciation for serving as President of PACE" loading="lazy">
+      </button>
+      <figcaption>
+        <h3>Certificate of Appreciation: President, PACE</h3>
+        <p class="certificate-meta">Project Association of Computer and Electronics, ACEM · 2025</p>
+        <p>For leadership and contribution as President of the student technical association.</p>
+      </figcaption>
+    </figure>
 
-      <div class="certificate-slide">
-        <a href="certificates/certificate-2.jpeg" target="_blank">
-          <img src="certificates/certificate-2.jpeg" alt="Certificate 2">
-        </a>
-        <h3>Certificate Title</h3>
-        <p>Issuing Organization · 2025</p>
-      </div>
-
-      <div class="certificate-slide">
-        <a href="certificates/certificate-3.jpeg" target="_blank">
-          <img src="certificates/certificate-3.jpeg" alt="Certificate 3">
-        </a>
-        <h3>Certificate Title</h3>
-        <p>Issuing Organization · 2024</p>
-      </div>
-
-      <div class="certificate-slide">
-        <a href="certificates/certificate-4.jpeg" target="_blank">
-          <img src="certificates/certificate-4.jpeg" alt="Certificate 4">
-        </a>
-        <h3>Certificate Title</h3>
-        <p>Issuing Organization · 2024</p>
-      </div>
-
-    </div>
-
-    <button class="slider-btn next" aria-label="Next certificate">
-      →
-    </button>
+    <figure class="certificate">
+      <button class="certificate-thumb" data-full="certificates/certificate-4.jpeg" aria-label="View SET Conference 2024 certificate">
+        <img src="certificates/certificate-4.jpeg" alt="Certificate of Appreciation for volunteering at SET Conference 2024" loading="lazy">
+      </button>
+      <figcaption>
+        <h3>Volunteer, SET Conference 2024</h3>
+        <p class="certificate-meta">5th National Conference on Science, Engineering &amp; Technology · Dec 2024</p>
+        <p>Volunteered at the national conference organised by ACEM.</p>
+      </figcaption>
+    </figure>
 
   </div>
 
-  <div class="slider-dots">
-    <button class="dot active" aria-label="Certificate 1"></button>
-    <button class="dot" aria-label="Certificate 2"></button>
-    <button class="dot" aria-label="Certificate 3"></button>
-    <button class="dot" aria-label="Certificate 4"></button>
-  </div>
+  <dialog class="lightbox" aria-label="Certificate preview">
+    <button class="lightbox-close" aria-label="Close">×</button>
+    <img alt="">
+  </dialog>
 
 </section>
 
@@ -377,57 +575,25 @@
 
 <footer>
   <span>© 2026 Dipesh Thapa</span>
-  <a href="#top">Back to top ↑</a>
+  <a href="#top">Back to top</a>
 </footer>
 
 
 <script>
+const lightbox = document.querySelector(".lightbox");
+const lightboxImg = lightbox.querySelector("img");
 
-const slides = document.querySelectorAll(".certificate-slide");
-const dots = document.querySelectorAll(".dot");
-const prevBtn = document.querySelector(".prev");
-const nextBtn = document.querySelector(".next");
-
-let currentSlide = 0;
-
-function showSlide(index) {
-
-  currentSlide = (index + slides.length) % slides.length;
-
-  slides.forEach((slide, i) => {
-    slide.classList.toggle(
-      "active",
-      i === currentSlide
-    );
+document.querySelectorAll(".certificate-thumb").forEach((thumb) => {
+  thumb.addEventListener("click", () => {
+    lightboxImg.src = thumb.dataset.full;
+    lightboxImg.alt = thumb.querySelector("img").alt;
+    lightbox.showModal();
   });
-
-  dots.forEach((dot, i) => {
-    dot.classList.toggle(
-      "active",
-      i === currentSlide
-    );
-  });
-
-}
-
-nextBtn.addEventListener("click", () => {
-  showSlide(currentSlide + 1);
 });
 
-prevBtn.addEventListener("click", () => {
-  showSlide(currentSlide - 1);
+lightbox.addEventListener("click", (e) => {
+  if (e.target !== lightboxImg) lightbox.close();
 });
-
-dots.forEach((dot, index) => {
-
-  dot.addEventListener("click", () => {
-    showSlide(index);
-  });
-
-});
-
-showSlide(0);
-
 </script>
 
 </body>
